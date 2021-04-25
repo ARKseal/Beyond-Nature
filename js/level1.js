@@ -3,7 +3,7 @@ var forestImage;
 var bagValue = 0;
 var bagLimit = 5;
 
-var trashCount = 14;
+var trashCount = 0;
 var trashSpeed = 2;
 
 var trash, trashImage;
@@ -26,6 +26,8 @@ function level1setup() {
 	trashcan = createSprite(640, 330, 32, 40)
 	trashcan.addImage(trashcanImage)
 	trashcan.scale = 1.75;
+
+  
 }
 
 function drawLevel1() {
@@ -63,9 +65,10 @@ function drawLevel1() {
 		textSize(21);
 		fill(255, 255, 255);
 		text(`Well done!!\nYour final score for level 1: ${score}/15\n51 billion pieces of litter are released\non American roadways each year. Can you help\nby picking up trash in your neighborhood?\n(You will go to the next level soon!)`, width/2, height/2 - 60);
-
-		mode = 2;
-    //window.location = "game.html?l=2";
+		level2lock = false;
+		saveCookies();
+		// mode = 2;
+    window.location = "game.html?l=2";
 	}
 }
 

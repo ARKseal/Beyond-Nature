@@ -1,3 +1,4 @@
+var win = false;
 var score = 0;
 var backgroundIce, backgroundIceImage;
 
@@ -7,8 +8,8 @@ var iceLevel = 0;
 var iceSprites;
 var iceImage1, iceImage2, iceImage3, iceImage4, iceImage5;
 
-var lightningboltCount = 0;
-var lightningbolt1, lightningbolt2, lightningboltImage;
+var fireCount = 0;
+var fire1, fire2, fireImage;
 
 
 function level2preload() {
@@ -20,35 +21,52 @@ function level2preload() {
 	iceImage4 = loadImage("assets/ice/ice4.png");
 	iceImage5 = loadImage("assets/ice/ice5.png");
 
-	lightningboltImage = loadImage("assets/lightningbolt.png")
+	fireImage = loadImage("assets/fire.png")
 }
 
 function level2setup() {
 	iceFrameCount = 0;
-
-	level2over = false;
+	level2setup = 0;
 
 	player = createSprite(30, 200, 32, 64);
-  player.addImage(playerRightImage[0]);
-	
-	lightningbolt1 = createSprite(Math.round(random(10, 960)), Math.round(random(10, 350)), 32, 32);
-	lightningbolt2 = createSprite(Math.round(random(10, 960)), Math.round(random(10, 350)), 32, 32);
+	player.addImage(playerRightImage[0]);
+		
+	fire1 = createSprite(Math.round(random(10, 960)), Math.round(random(10, 350)), 32, 32);
+	fire2 = createSprite(Math.round(random(10, 960)), Math.round(random(10, 350)), 32, 32);
 
-	lightningbolt1.addImage(lightningboltImage);
-	lightningbolt2.addImage(lightningboltImage);
-  
+	fire1.addImage(fireImage);
+	fire2.addImage(fireImage);
+		
 	iceSprites = createSprite(480, 389, 32, 960);
 	changeIce();
 
 	backgroundIce = createSprite(480, 190, 480, 960);
-  backgroundIce.addImage(backgroundIceImage);
+	backgroundIce.addImage(backgroundIceImage);
 
 	player.y = 200;
 }
 
+
+
 function drawLevel2() {
 	background(0,0,0);
-  if (!level2over) {
+
+	if (level2over == 0) {
+
+		
+		
+    
+		text.depth = 3;
+		if ( keyDown("space") ) {
+      level2over=1;
+		}
+		
+		textAlign(CENTER);
+		textSize(21);
+		fill(255, 255, 255);
+		text("Hello!!\n To play please press UP as many times as necesarry to get all the fire balls before the ice melts!!!\nPress SPACE to start!!", width/2, height/2 - 10);
+		drawSprites();
+	} else if ( level2over == 1 ) {
 
 		//iceFrameCount++;
 
@@ -61,38 +79,51 @@ function drawLevel2() {
 		moveBackground();
 		fly();
 
-		if ( frameCount%60 /*450*/ == 0 ) {
+		if ( frameCount% 600 == 0 && level2over == 1) {
 			//console.log(iceFrameCount);
 			changeIce();
 		}
 
-		if ( player.overlap(lightningbolt1) ) {
+		if ( player.overlap(fire1) ) {
 			resetBolt(1);
 		}
 
-		if ( player.overlap(lightningbolt2) ) {
+		if ( player.overlap(fire2) ) {
 			resetBolt(2);
 		}
+		
+		
 		drawSprites();
-		text(`Level 2\nScore: ${lightningboltCount}\nFlap your way through this energy saving level\n before time runs out`, 20, 40)
-	} else {
+		text(`Level 2\nScore: ${fireCount}\nFlap your way through this energy saving level\n before time runs out`, 20, 40);
+	} else if (level2over == 2) {
 		//drawSprites();
+
     background(backgroundIceImage);
 		player.lifetime = 0;
 		backgroundIce.lifetime = 0;
 		iceSprites.lifetime = 0;
-		lightningbolt1.lifetime = 0;
-		lightningbolt2.lifetime = 0;
+
+		fire1.lifetime = 0;
+		fire2.lifetime = 0;
+
 		textAlign(CENTER);
 		textSize(21);
 		fill(255);
-		text(`Nice! You didn't waste the energy and prevented the ice caps from melting.\nYour Score: ${lightningboltCount}\n(You will be moving to the next level soon)`, width/2, height/2 - 20);
+
+		if (win) {
+			text(`Nice! You stopped the fires and prevented the ice caps from melting.\nYour Score: ${fireCount})\n Greenland lost an average of 279 billion tons of ice per year between 1993 and 2019; think about how YOU can save energy and prevent\n golbal warming.\n(You will be moving to the next level soon`, width/2, height/2 - 20);
+			level3lock = false;
+			saveCookies();
+			window.location = "game.html?l=3";
+		} else {
+			text(`Nooo! The fires melted the ice...\n*sad polarbear noises*\nYour Score: ${fireCount}\n(Level will be restarted soon)`, width/2, height/2 - 20);
+		window.location = "game.html?l=2";
+		}
+
     text.depth = 3;
-		mode = 3;
-		
-		//location.href = "game.html?l=3";
-	}
-	
+
+		level2over = 2;
+	}	
 }
 
 function moveBackground() {
@@ -101,8 +132,8 @@ function moveBackground() {
       backgroundIce.x += 5;
 			player.x += 5;
 
-			lightningbolt1.x += 5;
-			lightningbolt2.x += 5;
+			fire1.x += 5;
+			fire2.x += 5;
 
       iceSprites.x += 5;
 		}
@@ -113,8 +144,8 @@ function moveBackground() {
       backgroundIce.x -= 5;
       player.x -= 5;
 
-			lightningbolt1.x -= 5;
-			lightningbolt2.x -= 5;
+			fire1.x -= 5;
+			fire2.x -= 5;
 
       iceSprites.x -= 5;
 		}
@@ -141,9 +172,8 @@ function changeIce() {
 	try {
 		iceSprites.addImage(img);
 	} catch (err) {
-		console.log(`iceLevel = ${iceLevel}; ${err.message}`)
 		iceSprites.lifetime = 0;
-		level2over = true;
+		level2over = 2;
 	}
 }
 
@@ -195,17 +225,19 @@ function fly() {
 }
 
 function resetBolt(a) {
-	if ( iceSprites.lifetime != 0 ) {
+	if ( fireCount < 19 ) {
 		if (a == 1) {
-			lightningbolt1.x = Math.round(random(backgroundIce.x - 470, backgroundIce.x + 480));
-  		lightningbolt1.y = Math.round(random(backgroundIce.y - 180, backgroundIce.y + 160));
+			fire1.x = Math.round(random(backgroundIce.x - 470, backgroundIce.x + 480));
+  		fire1.y = Math.round(random(backgroundIce.y - 180, backgroundIce.y + 160));
 		} else {
-			lightningbolt2.x = Math.round(random(backgroundIce.x - 470, backgroundIce.x + 480));
-  		lightningbolt2.y = Math.round(random(backgroundIce.y - 180, backgroundIce.y + 160));
+			fire2.x = Math.round(random(backgroundIce.x - 470, backgroundIce.x + 480));
+  		fire2.y = Math.round(random(backgroundIce.y - 180, backgroundIce.y + 160));
 		}
-		lightningboltCount++;
-		console.log(lightningboltCount)
-	} else {
-		level2over = true;
+		fireCount++;
+		console.log(fireCount)
+	} else if (fireCount == 19) {
+		level2over = 2;
+		win = true;
 	}
+	console.log(fireCount);
 }

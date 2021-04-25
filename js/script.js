@@ -7,7 +7,7 @@ var level1lock = false;
 var islevel1preloaded = false;
 var islevel1setup = false;
 
-var level2over = false;
+var level2over = 0;
 var level2lock = true;
 var islevel2preloaded = false;
 var islevel2setup = false;
@@ -31,9 +31,8 @@ var ifchange = 0;
 
 var musicIntro, musicLoop, musicEnd;
 
-
-
 function preload() {
+	loadCookies();
 	mode = getMode();
 
 	if (mode == undefined) {
@@ -91,6 +90,7 @@ function setup() {
 }
 
 function draw() {
+	saveCookies();
 	if ( !musicIntro.isPlaying() && !musicLoop.isPlaying() ) {
 		musicLoop.loop();
 	}
@@ -119,7 +119,7 @@ function draw() {
 		}
 		drawLevel3();
 	} else if (mode == 4) {
-		drawEnd();
+		window.location = 'end.html';
 	}
 
 	drawSprites();

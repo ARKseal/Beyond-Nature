@@ -1,3 +1,3 @@
 function drawEnd() {
-	window.location = 'game'
+	window.location = 'end.html'
 }
