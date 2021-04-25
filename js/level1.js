@@ -68,7 +68,7 @@ function drawLevel1() {
 		level2lock = false;
 		saveCookies();
 		// mode = 2;
-    window.location = "game.html?l=2";
+    setInterval(() => {window.location = "game.html?l=2";}, 5000);
 	}
 }
 

@@ -119,7 +119,7 @@ function draw() {
 		}
 		drawLevel3();
 	} else if (mode == 4) {
-		window.location = 'end.html';
+		setInterval(() => {window.location = "end.html";}, 5000);
 	}
 
 	drawSprites();

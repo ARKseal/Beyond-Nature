@@ -114,10 +114,10 @@ function drawLevel2() {
 			text(`Nice! You stopped the fires and prevented the ice caps from melting.\nYour Score: ${fireCount})\n Greenland lost an average of 279 billion tons of ice per year between 1993 and 2019; think about how YOU can save energy and prevent\n golbal warming.\n(You will be moving to the next level soon`, width/2, height/2 - 20);
 			level3lock = false;
 			saveCookies();
-			window.location = "game.html?l=3";
+			setInterval(() => {window.location = "game.html?l=3";}, 5000);
 		} else {
 			text(`Nooo! The fires melted the ice...\n*sad polarbear noises*\nYour Score: ${fireCount}\n(Level will be restarted soon)`, width/2, height/2 - 20);
-		window.location = "game.html?l=2";
+		setInterval(() => {window.location = "game.html?l=2";}, 5000);
 		}
 
     text.depth = 3;

@@ -41,7 +41,7 @@ function drawLevel3() {
 		
     text(`Nice! You recycled enough water bottles\mand saved the ocean from warming too much.\n`, width/2, height/2 - 20);
 
-    window.location = "end.html";
+    setInterval(() => {window.location = "end.html";}, 5000);
   }
   movement();
   noCursor();
