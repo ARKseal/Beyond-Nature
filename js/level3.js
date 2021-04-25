@@ -39,7 +39,7 @@ function drawLevel3() {
 		textAlign(CENTER);
 		textSize(21);
 		
-    text(`Nice! You recycled enough water bottles\mand saved the ocean from warming too much.\n`, width/2, height/2 - 20);
+    text(`Nice! You recycled enough water bottles\nand saved the ocean from warming too much.\n`, width/2, height/2 - 20);
 
     setInterval(() => {window.location = "end.html";}, 5000);
   }

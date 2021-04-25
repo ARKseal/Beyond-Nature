@@ -52,9 +52,8 @@ function drawLevel2() {
 	background(0,0,0);
 
 	if (level2over == 0) {
-
-		
-		
+		background(backgroundIceImage);
+		backgroundIce.y = 2000;
     
 		text.depth = 3;
 		if ( keyDown("space") ) {
@@ -62,13 +61,13 @@ function drawLevel2() {
 		}
 		
 		textAlign(CENTER);
-		textSize(21);
+		textSize(18);
 		fill(255, 255, 255);
-		text("Hello!!\n To play please press UP as many times as necesarry to get all the fire balls before the ice melts!!!\nPress SPACE to start!!", width/2, height/2 - 10);
+		text("Hello!!\n To play please press UP as many times as necesarry\nto get all the fire balls before the ice melts!!!\nPress SPACE to start!!", width/2, height/2 - 10);
 		drawSprites();
 	} else if ( level2over == 1 ) {
 
-		//iceFrameCount++;
+		backgroundIce.y = 190;
 
 		if(backgroundIce.x <= backgroundIce.width/2 ) {
 			background.x = 0;
@@ -91,10 +90,11 @@ function drawLevel2() {
 		if ( player.overlap(fire2) ) {
 			resetBolt(2);
 		}
-		
+
+		text(`Level 2\nScore: ${fireCount}`, 20, 40);
 		
 		drawSprites();
-		text(`Level 2\nScore: ${fireCount}\nFlap your way through this energy saving level\n before time runs out`, 20, 40);
+	
 	} else if (level2over == 2) {
 		//drawSprites();
 
@@ -111,7 +111,9 @@ function drawLevel2() {
 		fill(255);
 
 		if (win) {
-			text(`Nice! You stopped the fires and prevented the ice caps from melting.\nYour Score: ${fireCount})\n Greenland lost an average of 279 billion tons of ice per year between 1993 and 2019; think about how YOU can save energy and prevent\n golbal warming.\n(You will be moving to the next level soon`, width/2, height/2 - 20);
+
+			textSize(14)
+			text(`Nice! You stopped the fires and prevented the ice caps from melting.\nYour Score: ${fireCount}\n Greenland lost an average of 279 billion tons of ice per year between 1993 and 2019\nThink about how YOU can save energy\nand prevent global warming.\n(You will be moving to the next level soon)`, width/2, height/2 - 20);
 			level3lock = false;
 			saveCookies();
 			setInterval(() => {window.location = "game.html?l=3";}, 5000);
