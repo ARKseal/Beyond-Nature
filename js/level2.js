@@ -4,7 +4,7 @@ var backgroundIce, backgroundIceImage;
 var iceFrameCount;
 
 var iceLevel = 0;
-var iceSprites = [];
+var iceSprites;
 var iceImage1, iceImage2, iceImage3, iceImage4, iceImage5;
 
 var lightningboltCount = 0;
@@ -37,9 +37,7 @@ function level2setup() {
 	lightningbolt1.addImage(lightningboltImage);
 	lightningbolt2.addImage(lightningboltImage);
   
-	for (var i = 0; i < 956; i+=32) {
-		iceSprites.push( createSprite(16+i, 389, 32, 32) );
-	}
+	iceSprites = createSprite(480, 389, 32, 960);
 	changeIce();
 
 	backgroundIce = createSprite(480, 190, 480, 960);
@@ -52,7 +50,7 @@ function drawLevel2() {
 	background(0,0,0);
   if (!level2over) {
 
-		iceFrameCount++;
+		//iceFrameCount++;
 
 		if(backgroundIce.x <= backgroundIce.width/2 ) {
 			background.x = 0;
@@ -63,8 +61,8 @@ function drawLevel2() {
 		moveBackground();
 		fly();
 
-		if ( iceFrameCount%60 /*450*/ == 0 ) {
-			console.log(iceFrameCount);
+		if ( frameCount%60 /*450*/ == 0 ) {
+			//console.log(iceFrameCount);
 			changeIce();
 		}
 
@@ -82,7 +80,7 @@ function drawLevel2() {
     background(backgroundIceImage);
 		player.lifetime = 0;
 		backgroundIce.lifetime = 0;
-		iceSprites.forEach( (iceSprite) => {iceSprite.lifetime = 0;});
+		iceSprites.lifetime = 0;
 		lightningbolt1.lifetime = 0;
 		lightningbolt2.lifetime = 0;
 		textAlign(CENTER);
@@ -106,9 +104,7 @@ function moveBackground() {
 			lightningbolt1.x += 5;
 			lightningbolt2.x += 5;
 
-      iceSprites.forEach( (iceSprites) => {
-        iceSprites.x += 5;
-      });
+      iceSprites.x += 5;
 		}
 	}
 
@@ -120,9 +116,7 @@ function moveBackground() {
 			lightningbolt1.x -= 5;
 			lightningbolt2.x -= 5;
 
-      iceSprites.forEach( (iceSprites) => {
-        iceSprites.x -= 5;
-      });
+      iceSprites.x -= 5;
 		}
 	}
 }
@@ -145,14 +139,10 @@ function changeIce() {
 	}
 
 	try {
-		iceSprites.forEach( (iceSprite) => {
-			iceSprite.addImage(img);
-		});
+		iceSprites.addImage(img);
 	} catch (err) {
 		console.log(`iceLevel = ${iceLevel}; ${err.message}`)
-		iceSprites.forEach( (iceSprite) => {
-			iceSprite.lifetime = 0;
-		});
+		iceSprites.lifetime = 0;
 		level2over = true;
 	}
 }
@@ -205,7 +195,7 @@ function fly() {
 }
 
 function resetBolt(a) {
-	if ( iceSprites[0].lifetime != 0 ) {
+	if ( iceSprites.lifetime != 0 ) {
 		if (a == 1) {
 			lightningbolt1.x = Math.round(random(backgroundIce.x - 470, backgroundIce.x + 480));
   		lightningbolt1.y = Math.round(random(backgroundIce.y - 180, backgroundIce.y + 160));

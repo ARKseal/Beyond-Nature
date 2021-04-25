@@ -57,15 +57,12 @@ function preload() {
 	if (mode == 1) {
 		level1preload();
 		islevel1preloaded = true;
-		islevel2preloaded = islevel3preloaded = false;
 	} else if (mode == 2) {
 		level2preload();
 		islevel2preloaded = true;
-		islevel1preloaded = islevel3preloaded = false;
 	} else if (mode == 3) {
-		//level3preload();
+		level3preload();
 		islevel3preloaded = true;
-		islevel1preloaded = islevel2preloaded = false;
 	}
 }
 
@@ -82,7 +79,7 @@ function setup() {
 		islevel2setup = true;
 		islevel1setup = islevel3setup = false;
 	} else if (mode == 3) {
-		//level3setup();
+		level3setup();
 		islevel3setup = true;
 		islevel1setup = islevel2setup = false;
 	}
@@ -115,7 +112,7 @@ function draw() {
 		drawLevel2();
 	} else if (mode == 3) {
 		if (!islevel3preloaded) {
-			//level3preload();
+			level3preload();
 		}
 		if (!islevel3setup) {
 			setup();
